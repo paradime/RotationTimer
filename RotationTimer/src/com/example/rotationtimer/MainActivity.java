@@ -16,26 +16,33 @@ import android.os.CountDownTimer;
 public class MainActivity extends Activity implements OnClickListener {
 
   long mMilliseconds;
-  long defaultTime = 0;
+  long defaultTime;
 
   public static final long MILLISECONDS_IN_HOUR = 3600000;
   public static final long MILLISECONDS_IN_MINUTE = 60000;
-  public static final long MILLISECONDS_IN_Second = 1000;
+  public static final long MILLISECONDS_IN_SECOND = 1000;
+
+  private static final int NEW_CLOCK = 0;
+  private static final int PAUSED = 1;
+  private static final int TICKING = 2;
 
   SimpleDateFormat secondFormat;
   SimpleDateFormat minuteFormat;
   SimpleDateFormat hourFormat;
-  TextView hourView, minuteView, secondView;
-  UpDownButton hourLayout;
+  UpDownButton hourLayout, secondLayout, minuteLayout;
   long s1;
   myCountDownTimer mCountDownTimer;
+  Button startButton, stopButton, resetButton;
+
+  private int state;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mMilliseconds = 60000 * 15;
+    defaultTime = 0;
+    state = NEW_CLOCK;
 
     hourFormat = new SimpleDateFormat("HH");
     hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -43,25 +50,34 @@ public class MainActivity extends Activity implements OnClickListener {
     minuteFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     secondFormat = new SimpleDateFormat("ss");
     secondFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    mCountDownTimer = new myCountDownTimer(mMilliseconds, 1000, this);
+    mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
 
     hourLayout = (UpDownButton) findViewById(R.id.countDownHours);
     hourLayout.setFormat(hourFormat);
     hourLayout.setIncrement(MILLISECONDS_IN_HOUR);
-    minuteView = (TextView) findViewById(R.id.countDownMinutes);
-    secondView = (TextView) findViewById(R.id.countDownSeconds);
-    ((Button) findViewById(R.id.start_button)).setOnClickListener(this);
-    ((Button) findViewById(R.id.stop_button)).setOnClickListener(this);
-    ((TextView) findViewById(R.id.countDownMinutes)).setOnClickListener(this);
-    ((TextView) findViewById(R.id.countDownSeconds)).setOnClickListener(this);
+    minuteLayout = (UpDownButton) findViewById(R.id.countDownMinutes);
+    minuteLayout.setFormat(minuteFormat);
+    minuteLayout.setIncrement(MILLISECONDS_IN_MINUTE);
+    secondLayout = (UpDownButton) findViewById(R.id.countDownSeconds);
+    secondLayout.setFormat(secondFormat);
+    secondLayout.setIncrement(MILLISECONDS_IN_SECOND);
+
+    startButton = (Button) findViewById(R.id.start_button);
+    startButton.setOnClickListener(this);
+    stopButton = (Button) findViewById(R.id.stop_button);
+    stopButton.setOnClickListener(this);
+    stopButton.setVisibility(View.GONE);
+    resetButton = (Button) findViewById(R.id.reset_button);
+    resetButton.setOnClickListener(this);
+    resetButton.setVisibility(View.GONE);
     update();
   }
 
   public void update() {
     long timeLeft = mCountDownTimer.getTimeLeft();
-    hourLayout.setValue(Integer.parseInt(hourFormat.format(timeLeft)));
-    minuteView.setText(minuteFormat.format(timeLeft));
-    secondView.setText(secondFormat.format(timeLeft));
+    hourLayout.setValue(timeLeft);
+    minuteLayout.setValue(timeLeft);
+    secondLayout.setValue(timeLeft);
   }
 
   public void newClock(long curTime) {
@@ -70,27 +86,44 @@ public class MainActivity extends Activity implements OnClickListener {
   }
 
   public void newClock() {
-    mCountDownTimer = new myCountDownTimer(mMilliseconds, 1000, this);
+    mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
     mCountDownTimer.start();
     MediaPlayer mp = MediaPlayer.create(this, R.raw.mushroom_sound);
     mp.start();
+  }
+
+  private long getTime() {
+    long curTime = 0;
+    curTime += hourLayout.getValue();
+    curTime += minuteLayout.getValue();
+    curTime += secondLayout.getValue();
+    return curTime;
+  }
+
+  private void reset() {
+    defaultTime = 0;
+    mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
+    state = NEW_CLOCK;
+    update();
   }
 
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
     case R.id.start_button:
-      mCountDownTimer.startAgain();
+      if (state == NEW_CLOCK) {
+        state = TICKING;
+        defaultTime = getTime();
+        newClock(defaultTime);
+      } else {
+        newClock(getTime());
+      }
       break;
     case R.id.stop_button:
       mCountDownTimer.cancel();
       break;
-    case R.id.countDownMinutes:
-      System.out.println("Minutes Pressed");
-      break;
-    case R.id.countDownSeconds:
-      System.out.println("Seconds Pressed");
-      break;
+    case R.id.reset_button:
+      reset();
     }
   }
 }

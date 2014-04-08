@@ -19,11 +19,16 @@
                android:id="@+id/start_button"
                android:layout_width="wrap_content"
                           android:layout_height="wrap_content"/>
-              <Button
-                android:text="STOP"
-                android:id="@+id/stop_button"
-                android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"/>
+            <Button
+              android:text="STOP"
+              android:id="@+id/stop_button"
+              android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"/>
+            <Button
+              android:text="RESET"
+              android:id="@+id/reset_button"
+              android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"/>
       </LinearLayout>
     <LinearLayout 
         android:layout_width="fill_parent"
@@ -39,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"/>
-        <TextView
+        <com.example.rotationtimer.UpDownButton
         android:id="@+id/countDownMinutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"/>
-        <TextView
+        <com.example.rotationtimer.UpDownButton
         android:id="@+id/countDownSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -33,18 +33,6 @@ public class myCountDownTimer extends CountDownTimer {
     return mSimpleDateFormat.format(timeLeft);
   }
 
-  public String getSeconds() {
-    return String.valueOf((timeLeft / 1000) % 60);
-  }
-
-  public String getMinutes() {
-    return String.valueOf((timeLeft / 60000) % 60);
-  }
-
-  public String getHours() {
-    return String.valueOf(timeLeft / 3600000);
-  }
-
   @Override
   public void onFinish() {
     myActivity.newClock();
