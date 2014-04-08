@@ -78,6 +78,18 @@ public class MainActivity extends Activity implements OnClickListener {
     hourLayout.setValue(timeLeft);
     minuteLayout.setValue(timeLeft);
     secondLayout.setValue(timeLeft);
+    hideButtons();
+    switch (state) {
+    case NEW_CLOCK:
+      startButton.setVisibility(View.VISIBLE);
+      break;
+    case TICKING:
+      stopButton.setVisibility(View.VISIBLE);
+      break;
+    case PAUSED:
+      startButton.setVisibility(View.VISIBLE);
+      resetButton.setVisibility(View.VISIBLE);
+    }
   }
 
   public void newClock(long curTime) {
@@ -107,20 +119,35 @@ public class MainActivity extends Activity implements OnClickListener {
     update();
   }
 
+  private void hideButtons() {
+    startButton.setVisibility(View.GONE);
+    stopButton.setVisibility(View.GONE);
+    resetButton.setVisibility(View.GONE);
+  }
+
+  private void stop() {
+    mCountDownTimer.cancel();
+    state = PAUSED;
+    update();
+  }
+
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
     case R.id.start_button:
       if (state == NEW_CLOCK) {
-        state = TICKING;
         defaultTime = getTime();
-        newClock(defaultTime);
+        if (defaultTime != 0) {
+          state = TICKING;
+          newClock(defaultTime);
+        }
       } else {
+        state = TICKING;
         newClock(getTime());
       }
       break;
     case R.id.stop_button:
-      mCountDownTimer.cancel();
+      stop();
       break;
     case R.id.reset_button:
       reset();
