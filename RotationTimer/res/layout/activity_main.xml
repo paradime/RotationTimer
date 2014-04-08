@@ -38,7 +38,7 @@
         <com.example.rotationtimer.UpDownButton
         android:id="@+id/countDownHours"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android.weight = "1.0"/>
         <TextView
         android:text=":"
@@ -48,7 +48,7 @@
         <com.example.rotationtimer.UpDownButton
         android:id="@+id/countDownMinutes"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android.weight = "1.0"/>
         <TextView
         android:text=":"
@@ -58,7 +58,7 @@
         <com.example.rotationtimer.UpDownButton
         android:id="@+id/countDownSeconds"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android.weight = "1.0"/>
         
               </LinearLayout>

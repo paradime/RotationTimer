@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnClickListener {
     defaultTime = 0;
     state = NEW_CLOCK;
 
-    hourFormat = new SimpleDateFormat("HH");
+    hourFormat = new SimpleDateFormat("hh");
     hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     minuteFormat = new SimpleDateFormat("mm");
     minuteFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
