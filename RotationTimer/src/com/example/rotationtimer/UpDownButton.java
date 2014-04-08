@@ -1,5 +1,7 @@
 package com.example.rotationtimer;
 
+import java.text.SimpleDateFormat;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,17 +15,19 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   private ImageButton up_button;
   private ImageButton down_button;
   private TextView up_down_button_value;
+  private SimpleDateFormat format;
 
-  private int _value;
-  private int _maxValue = 9;
-  private int _minValue = 0;
+  private long _value;
+  private long _maxValue = 59;
+  private long _minValue = 0;
+  private long increment;
 
-  public void setValue(int v) {
+  public void setValue(long v) {
     _value = v;
-    up_down_button_value.setText(Integer.toString(_value));
+    up_down_button_value.setText(format.format(_value));
   }
 
-  public int getValue() {
+  public long getValue() {
     return _value;
   }
 
@@ -35,6 +39,16 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   public UpDownButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     Inflate(context);
+  }
+
+  public void setFormat(SimpleDateFormat form) {
+    format = form;
+  }
+
+  public void setIncrement(long inc) {
+    increment = inc;
+    _maxValue = _maxValue * inc;
+    _minValue = _minValue * inc;
   }
 
   private void Inflate(Context context) {
@@ -53,16 +67,16 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   @Override
   public void onClick(View v) {
     if (v == up_button) {
-      _value++;
+      _value += increment;
       if (_value > _maxValue)
         _value = _minValue;
 
     } else if (v == down_button) {
-      _value--;
+      _value -= increment;
       if (_value < _minValue)
         _value = _maxValue;
     }
-    System.out.println(_value + " = newValue");
     setValue(_value);
   }
+
 }

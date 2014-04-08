@@ -19,6 +19,8 @@ public class MainActivity extends Activity implements OnClickListener {
   long defaultTime = 0;
 
   public static final long MILLISECONDS_IN_HOUR = 3600000;
+  public static final long MILLISECONDS_IN_MINUTE = 60000;
+  public static final long MILLISECONDS_IN_Second = 1000;
 
   SimpleDateFormat secondFormat;
   SimpleDateFormat minuteFormat;
@@ -44,6 +46,8 @@ public class MainActivity extends Activity implements OnClickListener {
     mCountDownTimer = new myCountDownTimer(mMilliseconds, 1000, this);
 
     hourLayout = (UpDownButton) findViewById(R.id.countDownHours);
+    hourLayout.setFormat(hourFormat);
+    hourLayout.setIncrement(MILLISECONDS_IN_HOUR);
     minuteView = (TextView) findViewById(R.id.countDownMinutes);
     secondView = (TextView) findViewById(R.id.countDownSeconds);
     ((Button) findViewById(R.id.start_button)).setOnClickListener(this);
