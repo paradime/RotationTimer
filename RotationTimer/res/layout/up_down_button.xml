@@ -16,17 +16,24 @@
 		android:layout_alignRight="@+id/up_down_button_up"
 		android:layout_centerInParent="true" android:gravity="center_vertical|center_horizontal" />
  
-	<ImageButton android:id="@+id/up_down_button_up"
-		android:background="@drawable/up_button" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_marginBottom="1dip" />
+	<ImageButton
+	    android:id="@+id/up_down_button_up"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/up_down_button_value"
+	    android:layout_alignParentTop="true"
+	    android:background="@drawable/up_button" />
  
 	<View android:layout_width="wrap_content" android:layout_height="1dip"
 		android:id="@+id/up_down_button_spacer" android:layout_alignLeft="@+id/up_down_button_up"
 		android:layout_centerInParent="true" android:layout_alignRight="@+id/up_down_button_up"
 		android:layout_below="@+id/up_down_button_up" android:background="#555555" />
  
-	<ImageButton android:id="@+id/up_down_button_down"
-		android:background="@drawable/down_button" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_below="@+id/up_down_button_spacer" />
+	<ImageButton
+	    android:id="@+id/up_down_button_down"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/up_down_button_spacer"
+	    android:background="@drawable/down_button" />
  
 </RelativeLayout>

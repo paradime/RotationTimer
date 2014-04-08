@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnClickListener {
     defaultTime = 0;
     state = NEW_CLOCK;
 
-    hourFormat = new SimpleDateFormat("hh");
+    hourFormat = new SimpleDateFormat("HH");
     hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     minuteFormat = new SimpleDateFormat("mm");
     minuteFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     hourLayout = (UpDownButton) findViewById(R.id.countDownHours);
     hourLayout.setFormat(hourFormat);
+    hourLayout.setMax(23);
     hourLayout.setIncrement(MILLISECONDS_IN_HOUR);
     minuteLayout = (UpDownButton) findViewById(R.id.countDownMinutes);
     minuteLayout.setFormat(minuteFormat);
@@ -79,6 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
     minuteLayout.setValue(timeLeft);
     secondLayout.setValue(timeLeft);
     hideButtons();
+    setClickableClock();
     switch (state) {
     case NEW_CLOCK:
       startButton.setVisibility(View.VISIBLE);
@@ -129,6 +131,18 @@ public class MainActivity extends Activity implements OnClickListener {
     mCountDownTimer.cancel();
     state = PAUSED;
     update();
+  }
+
+  private void setClickableClock() {
+    if (state == NEW_CLOCK) {
+      hourLayout.setClickable(true);
+      minuteLayout.setClickable(true);
+      secondLayout.setClickable(true);
+    } else {
+      hourLayout.setClickable(false);
+      minuteLayout.setClickable(false);
+      secondLayout.setClickable(false);
+    }
   }
 
   @Override

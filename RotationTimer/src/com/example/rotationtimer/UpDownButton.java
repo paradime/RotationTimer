@@ -21,6 +21,7 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   private long _maxValue = 59;
   private long _minValue = 0;
   private long increment;
+  private boolean clickable;
 
   public void setValue(long v) {
     _value = v;
@@ -34,21 +35,31 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   public UpDownButton(Context context) {
     super(context);
     Inflate(context);
+    clickable = true;
   }
 
   public UpDownButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     Inflate(context);
+    clickable = true;
   }
 
   public void setFormat(SimpleDateFormat form) {
     format = form;
   }
 
+  public void setMax(long max) {
+    _maxValue = max;
+  }
+
   public void setIncrement(long inc) {
     increment = inc;
     _maxValue = _maxValue * inc;
     _minValue = _minValue * inc;
+  }
+
+  public void setClickable(boolean isClickable) {
+    clickable = isClickable;
   }
 
   private void Inflate(Context context) {
@@ -66,17 +77,19 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
 
   @Override
   public void onClick(View v) {
-    if (v == up_button) {
-      _value += increment;
-      if (_value > _maxValue)
-        _value = _minValue;
+    if (clickable) {
+      if (v == up_button) {
+        _value += increment;
+        if (_value > _maxValue)
+          _value = _minValue;
 
-    } else if (v == down_button) {
-      _value -= increment;
-      if (_value < _minValue)
-        _value = _maxValue;
+      } else if (v == down_button) {
+        _value -= increment;
+        if (_value < _minValue)
+          _value = _maxValue;
+      }
+      setValue(_value);
     }
-    setValue(_value);
   }
 
 }
