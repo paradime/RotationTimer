@@ -12,6 +12,17 @@ public class myCountDownTimer extends CountDownTimer {
   long timeLeft, defaultTime;
   MainActivity myActivity;
 
+  /**
+   * sets the timeLeft, the current observer, the format for the clock and the
+   * countdown time and interval
+   * 
+   * @param millisInFuture
+   *          how long the timer should last
+   * @param countDownInterval
+   *          how fast the timer should count down
+   * @param curView
+   *          the current observer
+   */
   public myCountDownTimer(long millisInFuture, long countDownInterval,
       MainActivity curView) {
     super(millisInFuture, countDownInterval);
@@ -21,28 +32,35 @@ public class myCountDownTimer extends CountDownTimer {
     mSimpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
   }
 
+  /**
+   * UNUSED
+   * 
+   * @param millisInFuture
+   * @param countDownInterval
+   */
   public myCountDownTimer(long millisInFuture, long countDownInterval) {
     super(millisInFuture, countDownInterval);
   }
 
+  /**
+   * @return the current time left on the clock
+   */
   public long getTimeLeft() {
     return timeLeft;
   }
 
-  public String getFormat() {
-    return mSimpleDateFormat.format(timeLeft);
-  }
-
+  /**
+   * Creates a new clock when done
+   */
   @Override
   public void onFinish() {
     myActivity.newClock();
 
   }
 
-  public void startAgain() {
-    myActivity.newClock(timeLeft);
-  }
-
+  /**
+   * Updates the timeLeft on click as it's not available from CountDownTimer
+   */
   @Override
   public void onTick(long millisUntilFinished) {
     timeLeft = millisUntilFinished;

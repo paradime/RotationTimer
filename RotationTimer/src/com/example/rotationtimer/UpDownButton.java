@@ -23,45 +23,96 @@ public class UpDownButton extends RelativeLayout implements OnClickListener {
   private long increment;
   private boolean clickable;
 
+  /**
+   * sets the clocks value
+   * 
+   * @param v
+   *          a long time value
+   */
   public void setValue(long v) {
     _value = v;
     up_down_button_value.setText(format.format(_value));
   }
 
+  /**
+   * gets the current value
+   * 
+   * @return the current value
+   */
   public long getValue() {
     return _value;
   }
 
+  /**
+   * Creates the button
+   * 
+   * @param context
+   *          the activity where the button should go
+   */
   public UpDownButton(Context context) {
     super(context);
     Inflate(context);
     clickable = true;
   }
 
+  /**
+   * UNUSED
+   * 
+   * @param context
+   * @param attrs
+   */
   public UpDownButton(Context context, AttributeSet attrs) {
     super(context, attrs);
     Inflate(context);
     clickable = true;
   }
 
+  /**
+   * Sets the dateTimeFormat for this clock
+   * 
+   * @param form
+   *          a SimpleDateFormat that will be used for this clock
+   */
   public void setFormat(SimpleDateFormat form) {
     format = form;
   }
 
+  /**
+   * Sets the highest value that this clock can display
+   * 
+   * @param max
+   *          the highest value that the clock should display
+   */
   public void setMax(long max) {
     _maxValue = max;
   }
 
+  /**
+   * Sets how high the long should increment (Primarily used because time is in
+   * base 6 and 3
+   * 
+   * @param inc
+   *          how many X are in a Millisecond
+   */
   public void setIncrement(long inc) {
     increment = inc;
     _maxValue = _maxValue * inc;
     _minValue = _minValue * inc;
   }
 
+  /**
+   * Changes the clickability of each button
+   */
   public void setClickable(boolean isClickable) {
     clickable = isClickable;
   }
 
+  /**
+   * Inflates teh buttons on screen
+   * 
+   * @param context
+   *          the context where this button should go
+   */
   private void Inflate(Context context) {
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements OnClickListener {
     defaultTime = 0;
     state = NEW_CLOCK;
 
+    /* Setting up Date Formats */
     hourFormat = new SimpleDateFormat("HH");
     hourFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     minuteFormat = new SimpleDateFormat("mm");
@@ -52,6 +53,7 @@ public class MainActivity extends Activity implements OnClickListener {
     secondFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
 
+    /* Wiring up UpDownBUttons with their respective views and setting up values */
     hourLayout = (UpDownButton) findViewById(R.id.countDownHours);
     hourLayout.setFormat(hourFormat);
     hourLayout.setMax(23);
@@ -63,6 +65,7 @@ public class MainActivity extends Activity implements OnClickListener {
     secondLayout.setFormat(secondFormat);
     secondLayout.setIncrement(MILLISECONDS_IN_SECOND);
 
+    /* Setting up initial values for state buttons */
     startButton = (Button) findViewById(R.id.start_button);
     startButton.setOnClickListener(this);
     stopButton = (Button) findViewById(R.id.stop_button);
@@ -71,9 +74,12 @@ public class MainActivity extends Activity implements OnClickListener {
     resetButton = (Button) findViewById(R.id.reset_button);
     resetButton.setOnClickListener(this);
     resetButton.setVisibility(View.GONE);
-    update();
+    update(); // Ensures the view is up to date
   }
 
+  /**
+   * Updates the view based on our model countdown timer
+   */
   public void update() {
     long timeLeft = mCountDownTimer.getTimeLeft();
     hourLayout.setValue(timeLeft);
@@ -81,7 +87,7 @@ public class MainActivity extends Activity implements OnClickListener {
     secondLayout.setValue(timeLeft);
     hideButtons();
     setClickableClock();
-    switch (state) {
+    switch (state) { // Ensuring button visibility on state
     case NEW_CLOCK:
       startButton.setVisibility(View.VISIBLE);
       break;
@@ -94,11 +100,21 @@ public class MainActivity extends Activity implements OnClickListener {
     }
   }
 
+  /**
+   * Creates a new clock and starts it
+   * 
+   * @param curTime
+   *          The time that you want the clock to start with
+   */
   public void newClock(long curTime) {
     mCountDownTimer = new myCountDownTimer(curTime, 1000, this);
     mCountDownTimer.start();
   }
 
+  /**
+   * Creates a new clock with the default time and starts it Then plays a sound
+   * to show that a new rotation has begun
+   */
   public void newClock() {
     mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
     mCountDownTimer.start();
@@ -106,6 +122,11 @@ public class MainActivity extends Activity implements OnClickListener {
     mp.start();
   }
 
+  /**
+   * Gets the current time displayed on UpDownButtons
+   * 
+   * @return the long value of what each button corresponds to
+   */
   private long getTime() {
     long curTime = 0;
     curTime += hourLayout.getValue();
@@ -114,6 +135,10 @@ public class MainActivity extends Activity implements OnClickListener {
     return curTime;
   }
 
+  /**
+   * Command for resetButton Sets the default time to 0, creates a new clock
+   * with this default time then resets the state
+   */
   private void reset() {
     defaultTime = 0;
     mCountDownTimer = new myCountDownTimer(defaultTime, 1000, this);
@@ -121,18 +146,28 @@ public class MainActivity extends Activity implements OnClickListener {
     update();
   }
 
+  /**
+   * helper function for update just hides state buttons
+   */
   private void hideButtons() {
     startButton.setVisibility(View.GONE);
     stopButton.setVisibility(View.GONE);
     resetButton.setVisibility(View.GONE);
   }
 
+  /**
+   * Command for Stop stops the clock and changes the state
+   */
   private void stop() {
     mCountDownTimer.cancel();
     state = PAUSED;
     update();
   }
 
+  /**
+   * Helper function for update depending on the state, it will allow buttons to
+   * be clickable on the clock
+   */
   private void setClickableClock() {
     if (state == NEW_CLOCK) {
       hourLayout.setClickable(true);
@@ -145,6 +180,9 @@ public class MainActivity extends Activity implements OnClickListener {
     }
   }
 
+  /**
+   * onClick listener for this class
+   */
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
@@ -157,7 +195,7 @@ public class MainActivity extends Activity implements OnClickListener {
         }
       } else {
         state = TICKING;
-        newClock(getTime());
+        newClock(mCountDownTimer.getTimeLeft());
       }
       break;
     case R.id.stop_button:
